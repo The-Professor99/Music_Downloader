@@ -21,8 +21,8 @@ def request_download(url):
         try:
             res = requests.get(url)
             res.raise_for_status()
-        except requests.exceptions.RequestException:
-            print("Couldn't Get Request")
+        except requests.exceptions.RequestException as err:
+            print(f"Couldn't Get Request: {err}", file=sys.stderr)
             count += 1
             if count == 6:
                 print(

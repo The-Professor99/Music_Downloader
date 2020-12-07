@@ -1,5 +1,3 @@
-import sys
-import os
 import website_scrap as ws
 import file_name_manipulation as fnm
 import make_requests_and_parse as mrp
@@ -7,7 +5,7 @@ import save_and_update_files as suf
 
 # Add the names of artistes you're interested in here - in lower letters
 # eg artistes_of_interest = ["jorja smith", "burna boy"]
-artistes_of_interest: list = ['burna boy']
+artistes_of_interest: list = ['burna boy', "ckay"]
 
 # Currently Supported Website Pages - Please Do not Modify!!!
 # Doing so is at your own risk!!!
@@ -26,17 +24,13 @@ urls: list = [url1, url2, url3, url4, url5, url6, url7, url8, url9]
 folder: str = "Music/"
 
 # filepath of text file for Storing List of Songs downloaded, should have no tilde sign
+# create the text file, copy the absolute path and paste in here
 update_file_path: str = "Music/downloaded_songs.txt"
 
 # specify the number of days to cache webdriver
 num_days: int = 5
 
-if not os.path.isdir(folder):
-    print("Folder Not Found: modify folder variable,\
-        It should be an existing path with no tilde expansion symbol,\
-            try entering the absolute path!!!")
-    sys.exit(-1)
-
+suf.set_song_path(folder)
 
 def main():
     """downloads music files based on your \

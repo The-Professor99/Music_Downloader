@@ -5,7 +5,7 @@ def get_song_name(link):
     song_name = link.getText().lower()
     song_name = song_name.replace("(", "").replace(")", ""\
     ).replace("feat.", "ft").replace("feat", "ft").replace("–", "-"\
-    ).replace(",", " &").replace("ft.", "ft").replace("ft", "ft."\
+    ).replace(",", " &").replace("&", "ft.").replace("ft.", "ft").replace("ft", "ft."\
     ).replace("'", "")
     song_name = song_name + ".mp3"
     return song_name

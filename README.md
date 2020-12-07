@@ -5,6 +5,18 @@ This Program downloads songs with minimal human interaction from sites such as:
  - Justnaija
  - Songslover
 
+---
+
+## What this does
+
+Are you tired of downloading new songs of your favorite artistes the moment it drops, this helps you download new songs off the websites above depending on if the song is by an artiste you like.
+
+To run, simply run the `download_songs` script as you would any python script.
+
+You can choose to run this at intervals of days or set up a cron job to run it as at when required.
+
+This Ensures your playlist is always updated with new music from your Favorite Artistes.
+
 More Functionalities/Websites will be added Later on.
 
 ## Requirements
