@@ -11,7 +11,7 @@ artistes_of_interest: list = ['burna boy', "ckay"]
 # Doing so is at your own risk!!!
 url1: str = "https://www.thenetnaija.com/music/"
 url2: str = "https://www.thenetnaija.com/music/page/2"
-url3: str = "https://www.thenetnaija.com/music/afro/"
+url3: str = "https://www.thenetnaija.com/music/afro"
 url4: str = "https://www.thenetnaija.com/music/hip-hop"
 url5: str = "https://www.thenetnaija.com/music/hip-hop/page/2"
 url6: str = "https://justnaija.com/music/download-mp3/"
@@ -46,21 +46,43 @@ def main():
         if "songslover" in url:
             tag_to_scrap = soup.select("li.other-news h3.post-box-title a")
         else:
-            tag_to_scrap = soup.select(".file-name > a")
+            if "netnaija" in url:
+                tag_to_scrap = soup.select("h2 > a")
+                other_tag = soup.select("h2 > span")
+            else:
+                tag_to_scrap = soup.select(".file-name > a")
 
         # Stores song links to scrap
         download_list = []
 
-        for link in tag_to_scrap:
-            song_name = fnm.get_song_name(link)
-            if not suf.song_exists(song_name, folder):
-                if fnm.found_artists(fnm.artists_found(song_name), artistes_of_interest):
-                    download_list.append(link)
-        print([x.getText() for x in download_list])
-        return download_list
+        if "netnaija" not in url:
+            for link in tag_to_scrap:
+                song_name = fnm.get_song_name(link)
+                if not suf.song_exists(song_name, folder):
+                    if fnm.found_artists(fnm.artists_found(song_name), artistes_of_interest):
+                        download_list.append(link)
+            print([x.getText() for x in download_list])
+            return download_list
+        else:
+            netnaija_names = []
+            for link, artiste_name in zip(tag_to_scrap, other_tag):
+                song_name_ = fnm.get_song_name(link)
+                artiste_name = fnm.get_song_name(artiste_name)
+                artiste_name = artiste_name.replace(".mp3", "")
+                song_name = artiste_name + " - " + song_name_
+                song_name = song_name.strip()
+                if not suf.song_exists(song_name, folder):
+                    if fnm.found_artists(fnm.artists_found(song_name), artistes_of_interest):
+                        download_list.append(link)
+                        netnaija_names.append(song_name)
+            print([x.getText() for x in download_list])
+            return download_list, netnaija_names
 
     for url in urls:
-        download_list = get_download_list(url)
+        if "netnaija" in url:
+            download_list, names_netnaija = get_download_list(url)
+        else:
+            download_list = get_download_list(url)
         if len(download_list) == 0:
             continue
 
@@ -77,7 +99,10 @@ def main():
             if not res:
                 continue
             current_index = links_from_download_list.index(link)
-            name = fnm.get_song_name(download_list[current_index])
+            if "netnaija" in url:
+                name = names_netnaija[current_index]
+            else:
+                name = fnm.get_song_name(download_list[current_index])
             suf.save_music(res, name, folder)
             suf.update_list_downloaded(name, update_file_path)
     print("Done!")

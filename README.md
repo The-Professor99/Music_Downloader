@@ -19,6 +19,11 @@ This Ensures your playlist is always updated with new music from your Favorite A
 
 More Functionalities/Websites will be added Later on.
 
+## Installation
+This project can be installed by running the following command in your preferred directory.
+
+    $ git clone https://github.com/The-Professor99/Music_Downloader.git
+
 ## Requirements
 
  - `webdriver-manager`

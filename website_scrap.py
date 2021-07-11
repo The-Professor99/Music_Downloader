@@ -35,9 +35,10 @@ def download_justnaija(url):
 def download_netnaija(url):
     """Download a song from netnaija."""
     soup = request_and_parse(url)
-    class_to_scrap = soup.select(".download")
-    tag_to_scrap = class_to_scrap[1]
-    link_to_scrap = tag_to_scrap.get("href")
+    class_to_scrap = soup.select("div.db-one > a.btn")
+    tag_to_scrap = class_to_scrap[0]
+    link_to_scrap_ = tag_to_scrap.get("href")
+    link_to_scrap = "https://www.thenetnaija.com" + link_to_scrap_
     download_link = sabishare_download(link_to_scrap)
     res = request_download(download_link)
     return res
