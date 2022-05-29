@@ -11,13 +11,17 @@ def start_web_driver(cache_range=5):
     options = Options()
     prefs = {
         "download_restrictions": 3,
+        "download.default_directory": r"/home/ihechi/Music/auto_music"
     }
     options.add_experimental_option(
         "prefs", prefs
     )
+    options.add_argument("--headless")
+    options.add_argument("--no-sandbox")
+    options.add_argument("--disable-dev-shm-usage")
     driver = webdriver.Chrome(ChromeDriverManager(\
         cache_valid_range=cache_range).install(), options=options)
-
+        
 def download_justnaija(url):
     """Download a song from justnaija."""
     soup = request_and_parse(url)
@@ -40,17 +44,15 @@ def download_netnaija(url):
     link_to_scrap_ = tag_to_scrap.get("href")
     link_to_scrap = "https://www.thenetnaija.com" + link_to_scrap_
     download_link = sabishare_download(link_to_scrap)
-    res = request_download(download_link)
+    res = 200 # request_download(download_link)
     return res
 
 def sabishare_download(url):
     """Download a song from netnaija's sabishare host using selenium to simulate clicks."""
     driver.get(url)
     element = driver.find_element_by_class_name("btn.shadow-sm.download.mt-3.mt-sm-0")
-    element.click()
-    time.sleep(10)
-    tag_to_scrap = driver.find_element_by_class_name("download-url")
-    return tag_to_scrap.get_attribute("href")
+    driver.execute_script("arguments[0].click();", element);
+    
 
 def download_songslover(url):
     """Download a song from songslover."""

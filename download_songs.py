@@ -5,7 +5,7 @@ import save_and_update_files as suf
 
 # Add the names of artistes you're interested in here - in lower letters
 # eg artistes_of_interest = ["jorja smith", "burna boy"]
-artistes_of_interest: list = ['burna boy', "ckay"]
+artistes_of_interest: list = ['burna boy', 'bnxn']
 
 # Currently Supported Website Pages - Please Do not Modify!!!
 # Doing so is at your own risk!!!
@@ -17,18 +17,19 @@ url5: str = "https://www.thenetnaija.com/music/hip-hop/page/2"
 url6: str = "https://justnaija.com/music/download-mp3/"
 url7: str = "https://justnaija.com/music/download-mp3/page/2/"
 url8: str = "https://justnaija.com/music/foreign/"
-url9: str = "https://songslover.cam/"
-urls: list = [url1, url2, url3, url4, url5, url6, url7, url8, url9]
+
+#url9: str = "https://songslover.cam/"
+urls: list = [url1, url2, url3, url4, url5, url6, url7, url8] # url1, url2, url3, url4, url5
 
 # Enter Your Music Folder's path here, it should have no tilde symbol!!!
-folder: str = "Music/"
+folder: str = "Music/auto_music/"
 
 # filepath of text file for Storing List of Songs downloaded, should have no tilde sign
 # create the text file, copy the absolute path and paste in here
-update_file_path: str = "Music/downloaded_songs.txt"
+update_file_path: str = "/home/ihechi/Music/downloaded_songs.txt"
 
 # specify the number of days to cache webdriver
-num_days: int = 5
+num_days: int = 10
 
 suf.set_song_path(folder)
 
@@ -58,6 +59,7 @@ def main():
         if "netnaija" not in url:
             for link in tag_to_scrap:
                 song_name = fnm.get_song_name(link)
+                print(song_name, "; songname")
                 if not suf.song_exists(song_name, folder):
                     if fnm.found_artists(fnm.artists_found(song_name), artistes_of_interest):
                         download_list.append(link)
@@ -71,6 +73,7 @@ def main():
                 artiste_name = artiste_name.replace(".mp3", "")
                 song_name = artiste_name + " - " + song_name_
                 song_name = song_name.strip()
+                print("songname: ", song_name)
                 if not suf.song_exists(song_name, folder):
                     if fnm.found_artists(fnm.artists_found(song_name), artistes_of_interest):
                         download_list.append(link)
@@ -79,6 +82,7 @@ def main():
             return download_list, netnaija_names
 
     for url in urls:
+        fnm.rename_netnaija_songs(folder)
         if "netnaija" in url:
             download_list, names_netnaija = get_download_list(url)
         else:
@@ -103,8 +107,8 @@ def main():
                 name = names_netnaija[current_index]
             else:
                 name = fnm.get_song_name(download_list[current_index])
-            suf.save_music(res, name, folder)
-            suf.update_list_downloaded(name, update_file_path)
+                suf.save_music(res, name, folder)
+                suf.update_list_downloaded(name, update_file_path)
     print("Done!")
 
 
