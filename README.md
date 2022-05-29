@@ -36,6 +36,7 @@ Still in the `download_songs` module, Change the `folder` variable to your Music
 The `webdriver` is cached for 5 days, change the `num_days` variable to suit your preferences
 
 After these modifications are made, simply run the below command to start up the project
+
     $ python download_songs.py
 
 ## Note
